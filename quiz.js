@@ -1,4 +1,49 @@
- const allQuestions = [
+const phaseLimits = [10, 30, 60];
+let currentPhase = 1;
+let currentIndex = 0;
+let score = 0;
+let currentQuestions = [];
+
+const questionEl = document.getElementById("question");
+const answersEl = document.getElementById("answers");
+const nextBtn = document.getElementById("next-btn");
+const resultEl = document.getElementById("result");
+const phaseInfo = document.getElementById("phase-info");
+const nextPhaseBtn = document.getElementById("next-phase-btn");
+
+// INICIAR QUIZ
+const startBtn = document.getElementById("start-btn");
+startBtn.addEventListener("click", () => {
+  const nome = document.getElementById("usuario").value.trim();
+  if (!nome) {
+    alert("Digite seu nome para começar o quiz.");
+    return;
+  }
+  localStorage.setItem("usuario", nome.toLowerCase());
+  document.getElementById("start-screen").classList.add("hidden");
+  document.getElementById("quiz-container").classList.remove("hidden");
+  startPhase(1);
+});
+
+// EMBARALHAR
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// COMEÇAR FASE
+function startPhase(phase) {
+  currentPhase = phase;
+  currentIndex = 0;
+  score = 0;
+  resultEl.classList.add("hidden");
+  nextPhaseBtn.classList.add("hidden");
+
+  // Defina suas perguntas (simulação de perguntas)
+  const allQuestions = [
       {
         question: "(1) A quem Paulo chamou de 'meu companheiro de lutas' (Filemon 1:2)?",
         answers: [
@@ -497,163 +542,116 @@
            },
     ];
 
-    const phaseLimits = [10, 30, 60];
-    let currentPhase = 1;
-    let currentIndex = 0;
-    let score = 0;
-    let currentQuestions = [];
+  const start = phase === 1 ? 0 : phaseLimits[phase - 2];
+  const end = phaseLimits[phase - 1];
+  currentQuestions = shuffleArray(allQuestions.slice(start, end));
 
-    const questionEl = document.getElementById("question");
-    const answersEl = document.getElementById("answers");
-    const nextBtn = document.getElementById("next-btn");
-    const resultEl = document.getElementById("result");
-    const phaseInfo = document.getElementById("phase-info");
-    const nextPhaseBtn = document.getElementById("next-phase-btn");
+  phaseInfo.textContent = `Fase ${currentPhase} - ${currentQuestions.length} perguntas`;
+  showQuestion();
+}
 
-    document.getElementById("start-btn").addEventListener("click", () => {
-      const nome = document.getElementById("usuario").value.trim();
-      if (!nome) {
-        alert("Digite seu nome para começar o quiz.");
-        return;
-      }
-      localStorage.setItem("usuario", nome);
-      document.getElementById("start-screen").classList.add("hidden");
-      document.getElementById("quiz-container").classList.remove("hidden");
-      startPhase(1);
-    });
+// MOSTRAR PERGUNTA
+function showQuestion() {
+  const question = currentQuestions[currentIndex];
+  questionEl.textContent = question.question;
+  answersEl.innerHTML = "";
 
-    function shuffleArray(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-    }
-
-    function startPhase(phase) {
-      currentPhase = phase;
-      phaseInfo.textContent = `Fase ${phase}`;
-      const start = phase === 1 ? 0 : phaseLimits[phase - 2];
-      const end = phaseLimits[phase - 1];
-      currentQuestions = allQuestions.slice(start, end);
-      shuffleArray(currentQuestions);
-      currentIndex = 0;
-      score = 0;
-      resultEl.classList.add("hidden");
-      nextBtn.classList.add("hidden");
-      nextPhaseBtn.classList.add("hidden");
-      showQuestion();
-    }
-
-    function showQuestion() {
-      const question = currentQuestions[currentIndex];
-      questionEl.textContent = question.question;
-      answersEl.innerHTML = "";
-      question.answers.forEach((ans) => {
-        const btn = document.createElement("button");
-        btn.textContent = ans.text;
-        btn.onclick = () => handleAnswer(ans.correct);
-        answersEl.appendChild(btn);
-      });
-    }
-
-    function handleAnswer(correct) {
-      if (correct) score++;
-      nextBtn.classList.remove("hidden");
-      Array.from(answersEl.children).forEach((btn) => (btn.disabled = true));
-    }
-
-    nextBtn.onclick = () => {
-      if (currentIndex < currentQuestions.length - 1) {
-        currentIndex++;
-        nextBtn.classList.add("hidden");
-        showQuestion();
-      } else {
-        resultEl.classList.remove("hidden");
-        resultEl.textContent = `Fim da fase ${currentPhase}! Pontuação: ${score}/${currentQuestions.length}`;
-        if (currentPhase < 3) {
-          nextPhaseBtn.classList.remove("hidden");
-        } else {
-          alert("🎉 Você concluiu todas as fases!");
-        }
-        nextBtn.classList.add("hidden");
-
-        if (score > 0) salvarProgresso();
-      }
-    };
-
-    nextPhaseBtn.onclick = () => {
-      if (currentPhase < 3) {
-        startPhase(currentPhase + 1);
-      } else {
-        alert("🎉 Fim do quiz! Parabéns!");
-      }
-    };
-
-    async function salvarProgresso() {
-      const usuario = localStorage.getItem("usuario") || document.getElementById("usuario").value.trim();
-      if (!usuario) {
-        alert("Digite seu nome para salvar o progresso.");
-        return;
-      }
-
-      try {
-        const resposta = await fetch("https://quizbiblico-production.up.railway.app/progresso", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ usuario, fase: currentPhase, pontuacao: score }),
-        });
-
-        const dados = await resposta.json();
-        if (resposta.ok) {
-          alert(dados.mensagem);
-        } else {
-          alert(`Erro: ${dados.mensagem}`);
-        }
-      } catch (error) {
-        alert("Erro ao conectar com o servidor.");
-        console.error("Erro:", error);
-      }
-    }
-
-    async function consultarProgresso() {
-      const usuario = document.getElementById("usuario").value.trim();
-      if (!usuario) {
-        alert("Digite o nome do usuário para consultar o progresso.");
-        return;
-      }
-
-      try {
-        const resposta = await fetch(`https://quizbiblico-production.up.railway.app/progresso?usuario=${encodeURIComponent(usuario)}`);
-        const dados = await resposta.json();
-
-        if (resposta.ok) {
-          const ultimo = dados;
-          const totalPerguntas = ultimo.fase === 1 ? 10 : ultimo.fase === 2 ? 30 : 60;
-          document.getElementById("progresso-info").innerHTML = `
-            <strong>📌 Último progresso:</strong><br>
-            👤 Usuário: ${ultimo.usuario}<br>
-            🚩 Fase: ${ultimo.fase}<br>
-            ⭐ Pontuação: ${ultimo.pontuacao}de ${totalPerguntas} perguntas
-            
-          `;
-        } else {
-          alert(`Erro: ${dados.mensagem}`);
-        }
-      } catch (error) {
-        alert("Erro ao consultar o progresso.");
-        console.error("Erro:", error);
-      }
-    }
-
-    // Tornar funções acessíveis globalmente
-    window.salvarProgresso = salvarProgresso;
-    window.consultarProgresso = consultarProgresso;
-  
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('service-worker.js')
-      .then(reg => console.log("✅ Service Worker registrado!", reg))
-      .catch(err => console.error("❌ Erro no Service Worker:", err));
+  question.answers.forEach((answer, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = answer.text; // ✅ corrigido
+    btn.onclick = () => checkAnswer(index);
+    answersEl.appendChild(btn);
   });
+
+  nextBtn.classList.add("hidden");
+}
+
+// VERIFICAR RESPOSTA
+function checkAnswer(selectedIndex) {
+  const question = currentQuestions[currentIndex];
+  const buttons = answersEl.querySelectorAll("button");
+
+  buttons.forEach((btn, index) => {
+    btn.disabled = true;
+    if (question.answers[index].correct) {
+      btn.style.backgroundColor = "green";
+    } else if (index === selectedIndex) {
+      btn.style.backgroundColor = "red";
+    }
+  });
+
+  if (question.answers[selectedIndex].correct) {
+    score++;
+  }
+
+  nextBtn.classList.remove("hidden");
+}
+
+// PRÓXIMA PERGUNTA
+nextBtn.addEventListener("click", () => {
+  currentIndex++;
+  if (currentIndex < currentQuestions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+});
+
+// MOSTRAR RESULTADO
+function showResult() {
+  questionEl.textContent = "";
+  answersEl.innerHTML = "";
+  resultEl.classList.remove("hidden");
+
+  const total = currentQuestions.length;
+  const acertos = score;
+  const acertoPercent = Math.round((acertos / total) * 100);
+
+  if (acertoPercent >= 60 && currentPhase < phaseLimits.length) {
+    resultEl.innerHTML = `Parabéns! Você acertou ${acertos}/${total} (${acertoPercent}%).<br>Você pode avançar para a próxima fase.`;
+    nextPhaseBtn.classList.remove("hidden");
+  } else if (acertoPercent >= 60) {
+    resultEl.innerHTML = `🎉 Parabéns! Você concluiu todas as fases com sucesso!<br>Acertos: ${acertos}/${total} (${acertoPercent}%)`;
+  } else {
+    resultEl.innerHTML = `Você acertou ${acertos}/${total} (${acertoPercent}%).<br>Você precisa de ao menos 60% para avançar. Tente novamente.`;
+  }
+}
+
+// AVANÇAR PARA PRÓXIMA FASE
+nextPhaseBtn.addEventListener("click", () => {
+  if (currentPhase < phaseLimits.length) {
+    startPhase(currentPhase + 1);
+  }
+});
+
+// SALVAR PROGRESSO
+function salvarProgresso() {
+  const nome = localStorage.getItem("usuario") || "desconhecido";
+  const progresso = {
+    nome,
+    fase: currentPhase,
+    pontuacao: score,
+    data: new Date().toISOString()
+  };
+
+  localStorage.setItem(`progresso_${nome}`, JSON.stringify(progresso));
+  alert("✅ Progresso salvo com sucesso!");
+}
+
+// CONSULTAR PROGRESSO
+function consultarProgresso() {
+  const nome = localStorage.getItem("usuario") || "desconhecido";
+  const data = localStorage.getItem(`progresso_${nome}`);
+
+  if (data) {
+    const progresso = JSON.parse(data);
+    document.getElementById("progresso-info").innerHTML =
+      `👤 Usuário: ${progresso.nome}<br>` +
+      `📘 Fase: ${progresso.fase}<br>` +
+      `⭐ Pontuação: ${progresso.pontuacao}<br>` +
+      `🕓 Data: ${new Date(progresso.data).toLocaleString()}`;
+  } else {
+    document.getElementById("progresso-info").innerHTML =
+      "⚠️ Nenhum progresso salvo encontrado.";
+  }
 }
