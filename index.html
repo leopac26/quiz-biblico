@@ -14,7 +14,110 @@
       padding: 20px;
       text-align: center;
     }
-    h1 { color: #333; }
+    h1 { color: #333; }<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Bíblico</title>
+
+  <!-- Manifesto e ícone -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <meta name="theme-color" content="#ffffff"/>
+
+  <!-- Estilo -->
+  <link rel="stylesheet" href="./src/quiz.css">
+</head>
+<body>
+
+  <h1>Quiz Bíblico</h1>
+
+  <!-- TELA INICIAL -->
+  <section id="start-screen">
+    <h2>Bem-vindo ao Quiz!</h2>
+    <label for="usuario"><strong>Nome:</strong></label>
+    <input type="text" id="usuario" placeholder="Digite seu nome" aria-label="Nome do usuário" />
+    <br><br>
+    <button id="start-btn" type="button">Iniciar</button>
+  </section>
+
+  <!-- CONTAINER DO QUIZ -->
+  <section id="quiz-container" class="hidden">
+    <div id="phase-info"></div>
+    <div id="question" role="heading" aria-level="3"></div>
+    <div id="answers"></div>
+    <button id="next-btn" type="button" class="hidden">Próxima Pergunta</button>
+    <button id="next-phase-btn" type="button" class="hidden">Avançar para a Próxima Fase</button>
+    <div id="result" class="hidden" role="alert"></div>
+  </section>
+
+  <!-- AÇÕES DE PROGRESSO -->
+  <section class="progresso" style="margin-top: 20px;">
+    <button class="action" type="button" onclick="salvarProgresso()">💾 Salvar Progresso</button>
+    <button class="action" type="button" onclick="consultarProgresso()">📊 Ver Progresso</button>
+  </section>
+
+  <!-- MOSTRANDO RESULTADO DA CONSULTA -->
+  <section id="progresso-info" style="margin-top: 20px; font-size: 18px;"></section>
+
+  <!-- AVISO DE ATUALIZAÇÃO -->
+  <div id="update-notice" style="display: none; background: #ffd700; padding: 10px;">
+    Nova versão disponível. <button onclick="location.reload()">Atualizar</button>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script type="module" src="./src/firebase.js"></script>
+  <script type="module" src="./src/main.js"></script>
+  <script src="./src/quiz.js"></script>
+
+  <!-- SERVICE WORKER + Firebase Messaging -->
+  <script type="module">
+    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYbGBfVw3Bni1O0JAzT1iClSF_9MZfISs",
+      authDomain: "quiz-biblico-a64f5.firebaseapp.com",
+      projectId: "quiz-biblico-a64f5",
+      storageBucket: "quiz-biblico-a64f5.appspot.com",
+      messagingSenderId: "633779368186",
+      appId: "1:633779368186:web:10f8cb84de792ad82c1943"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('firebase-messaging-sw.js')
+          .then(registration => {
+            console.log('✅ Service Worker registrado:', registration);
+            return navigator.serviceWorker.ready;
+          })
+          .then((registration) => {
+            console.log('✅ Service Worker pronto!');
+            return getToken(messaging, {
+              vapidKey: "BPOzzcywntpWNHyCN2gpYNQeUt2tNkhn_VlaecJ0T6Krb5yBlqkbxwL7dtxe5Ne937c8nNYWNoWLrytXpvsUMg4",
+              serviceWorkerRegistration: registration
+            });
+          })
+          .then(token => {
+            if (token) {
+              console.log('📨 Token FCM:', token);
+              // Salvar no servidor se necessário
+            } else {
+              console.warn('⚠️ Token não disponível.');
+            }
+          })
+          .catch(error => console.error('❌ Erro ao obter token:', error));
+      });
+    }
+  </script>
+
+</body>
+</html>
+
     #question { font-size: 20px; margin-bottom: 15px; }
     #answers button {
       display: block;
