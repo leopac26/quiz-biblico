@@ -449,7 +449,7 @@ const questions = [
   }
   
   function registrarResposta(nome, pergunta, resposta, acertou) {
-    fetch("https://pwa-api-production-503d.up.railway.app/api/log-resposta", {
+    fetch("*", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
