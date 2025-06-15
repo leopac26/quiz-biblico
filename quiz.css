@@ -7,7 +7,11 @@
       text-align: center;
     }
     h1 { color: #333; }
-    #question { font-size: 20px; margin-bottom: 15px; }
+
+    #question { 
+      font-size: 20px; 
+      margin-bottom: 15px; }
+
     #answers button {
       display: block;
       margin: 5px auto;
@@ -20,11 +24,11 @@
       font-size: 18px;
     }
     #answers button:disabled {
-      background: #4285f4;
       cursor: not-allowed;
       font-size: 18px;
     }
     .hidden { display: none; }
+
     #result, #phase-info, #progresso-info {
       margin-top: 20px;
       font-weight: bold;
@@ -37,6 +41,7 @@
     button.action {
       background: #34a853;
       margin: 5px;
+      color: white;
     }
     #start-btn {
       background: #fbbc05;
@@ -47,6 +52,8 @@
       border-radius: 8px;
       cursor: pointer;
     }
+
+    
 
     @media (max-width: 600px) {
   body {
@@ -89,4 +96,19 @@
  h1{
   color: rgb(211, 192, 21);
  }
+
+  #usuario {
+    font-size: 20px;
+    background: #f1f0ed;
+    color: black;
+    margin: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+  }
+
+  #usuario::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 25px;
+  }
     }
