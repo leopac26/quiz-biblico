@@ -1,9 +1,20 @@
+// Carrega variáveis do .env
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 
 const app = express();
-const prisma = new PrismaClient();
+
+// Conecta ao banco usando a URL do .env
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  },
+});
 
 app.use(cors());
 app.use(express.json());
@@ -136,3 +147,14 @@ app.get("/relatorio", async (req, res) => {
 // Inicia o servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+
+app.get("/teste-db", async (req, res) => {
+  try {
+    const todos = await prisma.progresso.findMany();
+    res.json({ sucesso: true, registros: todos.length });
+  } catch (err) {
+    console.error("Erro de conexão com o banco:", err);
+    res.status(500).json({ sucesso: false, erro: err.message });
+  }
+});
+
