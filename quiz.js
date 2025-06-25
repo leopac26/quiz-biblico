@@ -1,8 +1,8 @@
-const phaseLimits = [10, 30, 60];
-let currentPhase = 1;
-let currentIndex = 0;
-let score = 0;
-let currentQuestions = [];
+const phaseLimits = [10, 30, 60]; // Limite de perguntas para cada fase
+let currentPhase = 1; // Fase inicial
+let currentIndex = 0; // Índice da pergunta atual
+let score = 0; // Pontuação atual
+let currentQuestions = []; // Armazena as perguntas da fase atual
 
 const questionEl = document.getElementById("question");
 const answersEl = document.getElementById("answers");
@@ -532,16 +532,18 @@ function startPhase(phase) {
                ]
            },
            {
-               question: "(60) Em Atenas, onde Paulo foi levado para falar sobre Jesus Cristo? (Atos 17:19)",
-               answers: [
-                   { text: "a) Coliseu.", correct: false },
-                   { text: "b) Santuário.", correct: false },
-                   { text: "c) Areópago", correct: true },
-                   { text: "d) Sinagoga", correct: false }
-               ]
-           },
-    ];
+        question: "(60) Em Atenas, onde Paulo foi levado para falar sobre Jesus Cristo? (Atos 17:19)",
+        answers: [
+          { text: "a) Coliseu.", correct: false },
+          { text: "b) Santuário.", correct: false },
+          { text: "c) Areópago", correct: true },
+          { text: "d) Sinagoga", correct: false }
+        ]
+      },
+      // Aqui você deve continuar a lista com as outras perguntas
+  ];
 
+  // Defina o intervalo de perguntas para a fase atual
   const start = phase === 1 ? 0 : phaseLimits[phase - 2];
   const end = phaseLimits[phase - 1];
   currentQuestions = shuffleArray(allQuestions.slice(start, end));
@@ -558,7 +560,7 @@ function showQuestion() {
 
   question.answers.forEach((answer, index) => {
     const btn = document.createElement("button");
-    btn.textContent = answer.text; // ✅ corrigido
+    btn.textContent = answer.text;
     btn.onclick = () => checkAnswer(index);
     answersEl.appendChild(btn);
   });
@@ -615,6 +617,9 @@ function showResult() {
   } else {
     resultEl.innerHTML = `Você acertou ${acertos}/${total} (${acertoPercent}%).<br>Você precisa de ao menos 60% para avançar. Tente novamente.`;
   }
+
+  // Salvar progresso automaticamente
+  salvarProgresso();
 }
 
 // AVANÇAR PARA PRÓXIMA FASE
@@ -626,27 +631,48 @@ nextPhaseBtn.addEventListener("click", () => {
 
 // SALVAR PROGRESSO
 function salvarProgresso() {
-  const nome = localStorage.getItem("usuario") || "desconhecido";
+  const usuario = localStorage.getItem("usuario") || "desconhecido";
   const progresso = {
-    nome,
+    usuario,
     fase: currentPhase,
-    pontuacao: score,
-    data: new Date().toISOString()
+    pontuacao: score
   };
 
-  localStorage.setItem(`progresso_${nome}`, JSON.stringify(progresso));
-  alert("✅ Progresso salvo com sucesso!");
+  // Salvar localmente
+  localStorage.setItem(`progresso_${usuario}`, JSON.stringify({
+    ...progresso,
+    data: new Date().toISOString()
+  }));
+
+  // Enviar para o backend
+  fetch("https://quiz-biblico-va6n.onrender.com/progresso", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(progresso)
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Erro ao salvar no servidor");
+      return res.json();
+    })
+    .then(data => {
+      console.log("✔️ Progresso salvo no backend:", data);
+    })
+    .catch(err => {
+      console.error("❌ Erro ao salvar no backend:", err);
+    });
 }
 
 // CONSULTAR PROGRESSO
 function consultarProgresso() {
-  const nome = localStorage.getItem("usuario") || "desconhecido";
-  const data = localStorage.getItem(`progresso_${nome}`);
+  const usuario = localStorage.getItem("usuario") || "desconhecido";
+  const data = localStorage.getItem(`progresso_${usuario}`);
 
   if (data) {
     const progresso = JSON.parse(data);
     document.getElementById("progresso-info").innerHTML =
-      `👤 Usuário: ${progresso.nome}<br>` +
+      `👤 Usuário: ${progresso.usuario}<br>` +
       `📘 Fase: ${progresso.fase}<br>` +
       `⭐ Pontuação: ${progresso.pontuacao}<br>` +
       `🕓 Data: ${new Date(progresso.data).toLocaleString()}`;
