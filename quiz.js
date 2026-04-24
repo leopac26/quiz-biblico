@@ -14,7 +14,7 @@ const phaseInfo = document.getElementById("phase-info");
 const nextPhaseBtn = document.getElementById("next-phase-btn");
 
 // URL DO GOOGLE SHEETS (COLE SUA URL AQUI)
-const PLANILHA_URL = "https://script.google.com/macros/s/AKfycbzQ9SepQWs8LrfdkfvEEb_FMTLtSyaMHy9w6ZoDP7CQeIRFU2NJAZ82Nh-1kpa0TPlkvg/exec";
+const PLANILHA_URL = "https://script.google.com/macros/s/AKfycbzRul1q8bj89y5xKo4h5UZqa-u_1l02rdxhxAGoJS99CZcrogqq_mYBkK6rck08SHtUog/exec";
 
 // TODAS AS PERGUNTAS (60)
 const allQuestions = [
