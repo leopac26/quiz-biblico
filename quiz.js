@@ -683,7 +683,30 @@ nextBtn.addEventListener("click", () => {
   }
 });
 
-// MOSTRAR RESULTADO
+
+
+// AVANÇAR FASE
+nextPhaseBtn.addEventListener("click", () => {
+  if (currentPhase < phaseLimits.length) {
+    startPhase(currentPhase + 1);
+  }
+});
+
+// SALVAR PROGRESSO (APENAS LOCAL)
+function salvarProgresso() {
+  const usuario = localStorage.getItem("usuario") || "desconhecido";
+  const progresso = {
+    usuario,
+    fase: currentPhase,
+    pontuacao: score,
+    data: new Date().toISOString()
+  };
+
+  localStorage.setItem(`progresso_${usuario}`, JSON.stringify(progresso));
+  console.log("✅ Progresso salvo localmente");
+}
+
+// MOSTRAR RESULTADO (sem backend)
 function showResult() {
   questionEl.textContent = "";
   answersEl.innerHTML = "";
@@ -701,28 +724,6 @@ function showResult() {
   } else {
     resultEl.innerHTML = `📚 Você acertou ${acertos}/${total} (${acertoPercent}%).<br>⚠️ Precisa de 60% para avançar. Tente novamente!`;
   }
-
-  salvarProgresso();
-}
-
-// AVANÇAR FASE
-nextPhaseBtn.addEventListener("click", () => {
-  if (currentPhase < phaseLimits.length) {
-    startPhase(currentPhase + 1);
-  }
-});
-
-// SALVAR PROGRESSO
-function salvarProgresso() {
-  const usuario = localStorage.getItem("usuario") || "desconhecido";
-  const progresso = {
-    usuario,
-    fase: currentPhase,
-    pontuacao: score,
-    data: new Date().toISOString()
-  };
-
-  localStorage.setItem(`progresso_${usuario}`, JSON.stringify(progresso));
 }
 
 // CONSULTAR PROGRESSO
