@@ -1380,16 +1380,47 @@ async function enviarParaPlanilha(dados) {
   }
 }
 
+// Função para registrar jogador ao iniciar o quiz
+async function registrarJogadorInicio(nome) {
+  try {
+    console.log("📝 Registrando jogador:", nome);
+    
+    await fetch(PLANILHA_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nome: nome,
+        tipo: "REGISTRO_INICIAL",
+        acertou: false,
+        timestamp: new Date().toISOString(),
+        mensagem: "Jogador entrou no quiz"
+      })
+    });
+    
+    console.log("✅ Jogador registrado na planilha!");
+    
+  } catch (erro) {
+    console.error("❌ Erro ao registrar jogador:", erro);
+  }
+}
+
 // INICIAR QUIZ
+// INICIAR QUIZ - VERSÃO MODIFICADA
 const startBtn = document.getElementById("start-btn");
 if (startBtn) {
-  startBtn.addEventListener("click", () => {
+  startBtn.addEventListener("click", async () => {
     const nome = document.getElementById("usuario").value.trim();
     if (!nome) {
       alert("Digite seu nome para começar o quiz.");
       return;
     }
+    
     localStorage.setItem("usuario", nome);
+    
+    // ⭐ REGISTRA O JOGADOR NA PLANILHA IMEDIATAMENTE
+    await registrarJogadorInicio(nome);
+    
     document.getElementById("start-screen").classList.add("hidden");
     document.getElementById("quiz-container").classList.remove("hidden");
     startPhase(1);
