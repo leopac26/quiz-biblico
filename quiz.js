@@ -779,7 +779,25 @@ function salvarProgressoLocal() {
 
 
 
-
+// ============================================
+// 1. BLOQUEIO DE PULL-TO-REFRESH (CELULAR)
+// ============================================
+(function bloquearPullToRefresh() {
+    let touchStartY = 0;
+    
+    document.body.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+    }, { passive: false });
+    
+    document.body.addEventListener('touchmove', (e) => {
+        const currentY = e.touches[0].clientY;
+        const atTop = document.documentElement.scrollTop === 0;
+        
+        if (atTop && currentY > touchStartY) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+})();
 
 // LIMITES DAS FASES (20 perguntas por fase = 60 total)
 const phaseLimits = [20, 40, 60];
@@ -1574,5 +1592,3 @@ function verAcertosUsuario() {
   const usuario = localStorage.getItem("usuario") || "Anônimo";
   alert(`📊 ${usuario}, você tem ${score} acertos nesta fase!\n\nOs dados estão sendo enviados para o Google Sheets!`);
 }
-
-// ⭐ NÃO TEM MAIS FUNÇÃO salvarProgresso() chamando o Render!
