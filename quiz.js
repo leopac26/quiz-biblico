@@ -797,7 +797,7 @@ const phaseInfo = document.getElementById("phase-info");
 const nextPhaseBtn = document.getElementById("next-phase-btn");
 
 // ⭐ APENAS A URL DO GOOGLE SHEETS - SEM RENDER!
-const PLANILHA_URL = "https://script.google.com/macros/s/AKfycbxYU1MpKl6bQ7x0qzHsUStV0RM6FPN7fIdl2YdIT9hbHa_NuXRVJcCN_00yLaYX7Vaa/exec";
+const PLANILHA_URL = "https://script.google.com/macros/s/AKfycbyjLevWPLSwdQE_CIY5bdZezSEPPRcxpq_8KuAPSqgKcPttIOfYRN7dKJcawmoa15wQ/exec";
 
  // TODAS AS PERGUNTAS (60)
 const allQuestions = [
