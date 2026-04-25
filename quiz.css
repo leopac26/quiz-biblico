@@ -5,6 +5,7 @@
       background: #f0f4f8;
       padding: 20px;
       text-align: center;
+      overscroll-behavior: contain;
     }
     h1 { color: #333; }
 
