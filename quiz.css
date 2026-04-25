@@ -6,6 +6,7 @@
       padding: 20px;
       text-align: center;
       overscroll-behavior: contain;
+       position: fixed; /* alternativa extrema */
     }
     h1 { color: #333; }
 
