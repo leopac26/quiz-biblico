@@ -16,6 +16,8 @@ const nextPhaseBtn = document.getElementById("next-phase-btn");
 // URL DO GOOGLE SHEETS (COLE SUA URL AQUI)
 const PLANILHA_URL = "https://script.google.com/macros/s/AKfycbzRul1q8bj89y5xKo4h5UZqa-u_1l02rdxhxAGoJS99CZcrogqq_mYBkK6rck08SHtUog/exec";
 
+const PLANILHA_URL = "https://script.google.com/macros/s/AKfycbzqLxrNybSR9UeF2Poyclyc6s4q1LtJ8KL4c_w5r727GZK6mxi-3jGyi23zS1IuOI7o3w/exec";
+
 // TODAS AS PERGUNTAS (60)
 const allQuestions = [
   {
