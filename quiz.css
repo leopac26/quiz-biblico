@@ -1,13 +1,16 @@
 
 
  body {
-      font-family: Arial, sans-serif;
-      background: #f0f4f8;
-      padding: 20px;
-      text-align: center;
-      overscroll-behavior: contain;
-       position: fixed; /* alternativa extrema */
-    }
+  font-family: Arial, sans-serif;
+  background: #f0f4f8;
+  padding: 20px;
+  text-align: center;
+  overscroll-behavior: contain;
+  min-height: 100vh;
+  margin: 0; /* adicione isso */
+}
+
+    
     h1 { color: #333; }
 
     #question { 
@@ -59,10 +62,12 @@
 
     @media (max-width: 600px) {
   body {
+    text-align: center;  /* ← LINHA MÁGICA */
     font-size: 20px;
     padding: 20px;
     background-color: #35428d;
     color: white;
+    margin: 0; /* também adicione aqui */
   }
 
   .action{
