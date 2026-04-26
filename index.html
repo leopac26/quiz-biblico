@@ -53,6 +53,51 @@
   }
 </script>
 
+<script>
+  // PREVENIR PULL-TO-REFRESH NO CELULAR - SOLUÇÃO DEFINITIVA
+(function() {
+    let startY = 0;
+    let currentY = 0;
+    
+    function preventPullToRefresh(e) {
+        // Pega o elemento que está sendo rolado
+        const scrollable = e.target.closest('.quiz-container, body, #answers, .container') || document.body;
+        
+        // Verifica se o elemento pode rolar
+        const isScrollable = scrollable.scrollHeight > scrollable.clientHeight;
+        
+        if (!isScrollable) {
+            e.preventDefault();
+            return;
+        }
+        
+        // Obtém a posição do scroll atual
+        const scrollTop = scrollable.scrollTop;
+        
+        // Se estiver no TOPO e tentar puxar para BAIXO
+        if (scrollTop === 0 && currentY - startY > 0) {
+            e.preventDefault();
+            return;
+        }
+        
+        // Se estiver no FINAL e tentar puxar para CIMA (rolar além do fim)
+        if (scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1 && currentY - startY < 0) {
+            e.preventDefault();
+            return;
+        }
+    }
+    
+    document.addEventListener('touchstart', function(e) {
+        startY = e.touches[0].clientY;
+    }, { passive: false });
+    
+    document.addEventListener('touchmove', function(e) {
+        currentY = e.touches[0].clientY;
+        preventPullToRefresh(e);
+    }, { passive: false });
+})();
+</script>
+
 
 </body>
 </html>
