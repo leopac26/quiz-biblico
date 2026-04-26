@@ -1,6 +1,4 @@
-
-
- body {
+body {
   font-family: Arial, sans-serif;
   background: #f0f4f8;
   padding: 20px;
@@ -8,62 +6,65 @@
   overscroll-behavior: none;
   min-height: 100vh;
   margin: 0; /* adicione isso */
-  
 }
 
-    
-    h1 { color: #333; }
+h1 {
+  color: #333;
+}
 
-    #question { 
-      font-size: 20px; 
-      margin-bottom: 15px; }
+#question {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
 
-    #answers button {
-      display: block;
-      margin: 5px auto;
-      padding: 10px 20px;
-      background: #4285f4;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 18px;
-    }
-    #answers button:disabled {
-      cursor: not-allowed;
-      font-size: 18px;
-    }
-    .hidden { display: none; }
+#answers button {
+  display: block;
+  margin: 5px auto;
+  padding: 10px 20px;
+  background: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+#answers button:disabled {
+  cursor: not-allowed;
+  font-size: 18px;
+}
+.hidden {
+  display: none;
+}
 
-    #result, #phase-info, #progresso-info {
-      margin-top: 20px;
-      font-weight: bold;
-    }
-    input[type="text"] {
-      padding: 8px;
-      margin: 10px;
-      width: 200px;
-    }
-    button.action {
-      background: #34a853;
-      margin: 5px;
-      color: white;
-    }
-    #start-btn {
-      background: #fbbc05;
-      padding: 10px 20px;
-      font-size: 16px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+#result,
+#phase-info,
+#progresso-info {
+  margin-top: 20px;
+  font-weight: bold;
+}
+input[type="text"] {
+  padding: 8px;
+  margin: 10px;
+  width: 200px;
+}
+button.action {
+  background: #34a853;
+  margin: 5px;
+  color: white;
+}
+#start-btn {
+  background: #fbbc05;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-    
-
-    @media (max-width: 600px) {
+@media (max-width: 600px) {
   body {
-    text-align: center;  /* ← LINHA MÁGICA */
+    text-align: center; /* ← LINHA MÁGICA */
     font-size: 20px;
     padding: 20px;
     background-color: #35428d;
@@ -73,18 +74,17 @@
     transition: transform 0.1s ease;
   }
 
-  .action{
+  .action {
     font-size: 20px;
     color: white;
-     
-}
+  }
 
-.progresso{
+  .progresso {
     margin: 20px;
-
-}
-#next-btn{
-  margin: 20px;
+  }
+  #next-btn {
+    margin: 20px;
+    
     font-size: 20px;
     color: white;
     background: #fbbc05;
@@ -93,7 +93,7 @@
     border-radius: 8px;
     cursor: pointer;
   }
-  #start-btn{
+  #start-btn {
     margin: 20px;
     font-size: 20px;
     color: white;
@@ -101,11 +101,11 @@
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
-    cursor: pointer
-}
- h1{
-  color: rgb(211, 192, 21);
- }
+    cursor: pointer;
+  }
+  h1 {
+    color: rgb(211, 192, 21);
+  }
 
   #usuario {
     font-size: 20px;
@@ -121,4 +121,4 @@
     color: rgba(0, 0, 0, 0.3);
     font-size: 25px;
   }
-    }
+}
