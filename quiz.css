@@ -8,6 +8,7 @@
   overscroll-behavior: none;
   min-height: 100vh;
   margin: 0; /* adicione isso */
+  
 }
 
     
@@ -69,6 +70,7 @@
     color: white;
     margin: 0; /* também adicione aqui */
     overscroll-behavior: none; /* ← LINHA ADICIONADA para celular */
+    transition: transform 0.1s ease;
   }
 
   .action{
