@@ -587,10 +587,604 @@ const phaseInfo = document.getElementById("phase-info");
 const nextPhaseBtn = document.getElementById("next-phase-btn");
 
 // ⭐ APENAS A URL DO GOOGLE SHEETS - SEM RENDER!
-const PLANILHA_URL = "https://script.google.com/macros/s/AKfycbwHwbz0Jimo6ihWvTpTsiM74jCtJ8lgiqnYYu19jrCfh1wTkT_GKLRBYTTAmC_VZfrp/exec";
+const PLANILHA_URL = "https://script.google.com/macros/s/AKfycby7-m96wVpI1XrjPUVnbx6LuDRe9l1VHPBDETQX2M6XNi2GpU1UoBMGx3nfbblpKRV3/exec";
 
  // TODAS AS PERGUNTAS (60)
 const allQuestions = [
+
+  {
+    question:
+      "(40) Quantas pessoas entraram na arca de Noé (contando com Noé)?",
+    answers: [
+      { text: "Sete pessoas", correct: false },
+      { text: "Nove pessoas", correct: false },
+      { text: "Seis pessoas", correct: false },
+      { text: "Oito pessoas", correct: true },
+    ],
+  },
+  {
+    question:
+      "(41) Qual o nome do escravo de Saulo (Paulo) que o ajudou a apedrejar Estevão?",
+    answers: [
+      { text: "João Marcos", correct: false },
+      { text: "Silas", correct: false },
+      { text: "Não é mencionado", correct: true },
+      { text: "Tiago", correct: false },
+    ],
+  },
+  {
+    question:
+      "(42) Qual rei escreveu a frase 'Vaidade de vaidades, tudo é vaidade'?",
+    answers: [
+      { text: "Salomão", correct: true },
+      { text: "Ezequias", correct: false },
+      { text: "Davi", correct: false },
+      { text: "Josias", correct: false },
+    ],
+  },
+  {
+    question:
+      "(43) Quantas pragas caíram sobre o Egito antes de Faraó deixar o povo de Israel sair?",
+    answers: [
+      { text: "Oito pragas", correct: false },
+      { text: "Dez pragas", correct: true },
+      { text: "Sete pragas", correct: false },
+      { text: "Doze pragas", correct: false },
+    ],
+  },
+  {
+    question:
+      "(44) Qual o nome do sacerdote que comeu os pães da proposição por necessidade (citado por Jesus)?",
+    answers: [
+      { text: "Abiá", correct: true },
+      { text: "Aimeleque", correct: false },
+      { text: "Zadoque", correct: false },
+      { text: "Eli", correct: false },
+    ],
+  },
+  {
+    question:
+      "(45) Quem foi a única mulher na Bíblia a ser chamada de 'juíza'?",
+    answers: [
+      { text: "Ana", correct: false },
+      { text: "Ester", correct: false },
+      { text: "Débora", correct: true },
+      { text: "Miriã", correct: false },
+    ],
+  },
+  {
+    question:
+      "(46) Quantos cavaleiros são mencionados no exército de Gideão que derrotou os midianitas?",
+    answers: [
+      { text: "300 homens (sem cavalos)", correct: true },
+      { text: "Nenhum cavaleiro", correct: false },
+      { text: "500 cavaleiros", correct: false },
+      { text: "1000 cavaleiros", correct: false },
+    ],
+  },
+  {
+    question:
+      "(47) Qual o nome do jardim onde Jesus foi traído por Judas Iscariotes?",
+    answers: [
+      { text: "Jardim de José de Arimateia", correct: false },
+      { text: "Jardim das Oliveiras", correct: false },
+      { text: "Jardim do Getsêmani", correct: true },
+      { text: "Jardim do Éden", correct: false },
+    ],
+  },
+  {
+    question: "(48) Quem foi o sucessor de Moisés como líder de Israel?",
+    answers: [
+      { text: "Josué", correct: true },
+      { text: "Calebe", correct: false },
+      { text: "Arão", correct: false },
+      { text: "Eleazar", correct: false },
+    ],
+  },
+  {
+    question:
+      "(49) Em qual capítulo de Gênesis Deus faz a promessa a Abraão de que ele seria o pai de uma grande nação?",
+    answers: [
+      { text: "Gênesis 22", correct: false },
+      { text: "Gênesis 15", correct: false },
+      { text: "Gênesis 12", correct: true },
+      { text: "Gênesis 17", correct: false },
+    ],
+  },
+  {
+    question:
+      "(50) Quantos livros tem a Bíblia Protestante (incluindo Novo e Antigo Testamento)?",
+    answers: [
+      { text: "70 livros", correct: false },
+      { text: "68 livros", correct: false },
+      { text: "66 livros", correct: true },
+      { text: "73 livros", correct: false },
+    ],
+  },
+  {
+    question: "(51) Qual o nome do rei que colocou Daniel na cova dos leões?",
+    answers: [
+      { text: "Ciro", correct: false },
+      { text: "Dario", correct: true },
+      { text: "Belsazar", correct: false },
+      { text: "Nabucodonosor", correct: false },
+    ],
+  },
+  {
+    question:
+      "(52) Quantos versículos tem o Salmo 119 (o mais longo da Bíblia)?",
+    answers: [
+      { text: "150 versículos", correct: false },
+      { text: "176 versículos", correct: true },
+      { text: "100 versículos", correct: false },
+      { text: "200 versículos", correct: false },
+    ],
+  },
+  {
+    question: "(53) Qual era a profissão de Mateus antes de seguir Jesus?",
+    answers: [
+      { text: "Carpinteiro", correct: false },
+      { text: "Cobrador de impostos (publicano)", correct: true },
+      { text: "Médico", correct: false },
+      { text: "Pescador", correct: false },
+    ],
+  },
+  {
+    question:
+      "(54) Quem foi o profeta que confrontou o rei Davi sobre seu pecado com Bate-Seba?",
+    answers: [
+      { text: "Gade", correct: false },
+      { text: "Natã", correct: true },
+      { text: "Samuel", correct: false },
+      { text: "Zadoque", correct: false },
+    ],
+  },
+  {
+    question:
+      "(55) Quantas pessoas foram salvas na arca de Noé (citando o número exato mencionado na Bíblia)?",
+    answers: [
+      { text: "Oito almas", correct: true },
+      { text: "Dez pessoas", correct: false },
+      { text: "Sete pessoas", correct: false },
+      { text: "Nove pessoas", correct: false },
+    ],
+  },
+  {
+    question:
+      "(56) Qual o nome do rei da Babilônia que viu a escrita na parede durante um banquete?",
+    answers: [
+      { text: "Nabucodonosor", correct: false },
+      { text: "Evil-Merodaque", correct: false },
+      { text: "Belsazar", correct: true },
+      { text: "Dario", correct: false },
+    ],
+  },
+  {
+    question:
+      "(57) Qual discípulo cortou a orelha do servo do sumo sacerdote no jardim do Getsêmani?",
+    answers: [
+      { text: "Tiago", correct: false },
+      { text: "Judas", correct: false },
+      { text: "Pedro", correct: true },
+      { text: "João", correct: false },
+    ],
+  },
+  {
+    question:
+      "(58) Quantos dias e noites choveu durante o dilúvio nos tempos de Noé?",
+    answers: [
+      { text: "50 dias e 50 noites", correct: false },
+      { text: "30 dias e 30 noites", correct: false },
+      { text: "40 dias e 40 noites", correct: true },
+      { text: "100 dias e 100 noites", correct: false },
+    ],
+  },
+  {
+    question: "(59) Qual o nome da esposa de Abraão que morreu primeiro?",
+    answers: [
+      { text: "Agar", correct: false },
+      { text: "Sara", correct: true },
+      { text: "Rebeca", correct: false },
+      { text: "Quetura", correct: false },
+    ],
+  },
+  {
+    question:
+      "(60) Em qual cidade Jesus realizou o seu primeiro milagre (transformar água em vinho)?",
+    answers: [
+      { text: "Nazaré", correct: false },
+      { text: "Cafarnaum", correct: false },
+      { text: "Caná da Galileia", correct: true },
+      { text: "Jerusalém", correct: false },
+    ],
+  },
+
+  {
+    question:
+      "(1) Qual profeta foi morto por uma espada depois de ser enganado por uma mentirosa que disse que ele era outro profeta?",
+    answers: [
+      { text: "Urias", correct: false },
+      { text: "Semaías", correct: true },
+      { text: "Micaías", correct: false },
+      { text: "Zacarias", correct: false },
+    ],
+  },
+  {
+    question:
+      "(2) Quantos filhos e netos do rei Josias são mencionados como reinando sobre Judá?",
+    answers: [
+      { text: "Cinco filhos e nenhum neto", correct: false },
+      { text: "Dois filhos e três netos", correct: false },
+      { text: "Quatro filhos e um neto", correct: true },
+      { text: "Três filhos e dois netos", correct: false },
+    ],
+  },
+  {
+    question:
+      "(3) Qual o nome do servo de Abraão que foi enviado para buscar uma esposa para Isaque, e que aparece nomeado apenas uma vez em toda a Bíblia?",
+    answers: [
+      { text: "Zífaron", correct: false },
+      { text: "Eliezer de Damasco", correct: true },
+      { text: "Jidlá", correct: false },
+      { text: "Quemuel", correct: false },
+    ],
+  },
+  {
+    question:
+      "(4) Em que cidade Paulo foi 'baixado num cesto' por uma muralha, e em que noite da semana isso aconteceu?",
+    answers: [
+      { text: "Damasco, à noite", correct: true },
+      { text: "Jerusalém, ao amanhecer", correct: false },
+      { text: "Tarso, ao entardecer", correct: false },
+      { text: "Antioquia, à meia-noite", correct: false },
+    ],
+  },
+  {
+    question:
+      "(5) Quem escreveu o versículo 'Vingança minha, eu retribuirei', citado por Paulo em Romanos?",
+    answers: [
+      { text: "Davi (Salmos)", correct: false },
+      { text: "Isaías", correct: false },
+      { text: "Jeremias", correct: false },
+      { text: "Moisés (Deuteronômio)", correct: true },
+    ],
+  },
+  {
+    question:
+      "(6) Além de Davi, quantas pessoas na Bíblia são descritas com a expressão 'homem segundo o coração de Deus'?",
+    answers: [
+      { text: "Uma", correct: false },
+      { text: "Nenhuma", correct: true },
+      { text: "Duas", correct: false },
+      { text: "Três", correct: false },
+    ],
+  },
+  {
+    question:
+      "(7) Qual o nome do Egípcio que matou um leão numa cova em plena neve?",
+    answers: [
+      { text: "Adonias", correct: false },
+      { text: "Zeruias", correct: false },
+      { text: "Benaías", correct: true },
+      { text: "Joabe", correct: false },
+    ],
+  },
+  {
+    question:
+      "(8) Quantas gerações vão de Rute até Jesus (excluindo os dois extremos), de acordo com Mateus?",
+    answers: [
+      { text: "12 gerações", correct: false },
+      { text: "10 gerações", correct: false },
+      { text: "14 gerações", correct: false },
+      { text: "11 gerações", correct: true },
+    ],
+  },
+  {
+    question:
+      "(9) Qual dos reis de Judá reinou apenas 3 meses e 10 dias antes de ser levado preso ao Egito?",
+    answers: [
+      { text: "Jeoaquim", correct: true },
+      { text: "Zedequias", correct: false },
+      { text: "Joacaz", correct: false },
+      { text: "Josias", correct: false },
+    ],
+  },
+  {
+    question: "(10) O que significa o nome 'Icabô' dado ao filho de Fineias?",
+    answers: [
+      { text: "Meu pai é Deus", correct: false },
+      { text: "O Senhor se lembra", correct: false },
+      { text: "Casa de pão", correct: false },
+      { text: "Foi-se a glória de Israel", correct: true },
+    ],
+  },
+  {
+    question:
+      "(11) Qual profeta do Antigo Testamento menciona especificamente um 'livro de memórias' escrito diante de Deus?",
+    answers: [
+      { text: "Malaquias", correct: true },
+      { text: "Joel", correct: false },
+      { text: "Zacarias", correct: false },
+      { text: "Ageu", correct: false },
+    ],
+  },
+  {
+    question:
+      "(12) Quantos soldados de Davi mataram os 200 filisteus para obter a água do poço de Belém que Davi tanto desejava?",
+    answers: [
+      { text: "Sete", correct: false },
+      { text: "Cinco", correct: false },
+      { text: "Dois", correct: false },
+      { text: "Três", correct: true },
+    ],
+  },
+  {
+    question:
+      "(13) Qual o nome do lugar onde Moisés viu a sarça ardente, e qual o significado desse nome?",
+    answers: [
+      { text: "Horebe - 'lugar seco, deserto'", correct: true },
+      { text: "Cades - 'santo'", correct: false },
+      { text: "Midiã - 'contenda'", correct: false },
+      { text: "Sinai - 'arbusto espinhoso'", correct: false },
+    ],
+  },
+  {
+    question:
+      "(14) Quem foi a primeira pessoa na Bíblia a ser chamada de 'profeta' nominalmente?",
+    answers: [
+      { text: "Enoque", correct: false },
+      { text: "Samuel", correct: false },
+      { text: "Abraão", correct: true },
+      { text: "Moisés", correct: false },
+    ],
+  },
+  {
+    question:
+      "(15) Qual imperador romano ordenou que todos os judeus saíssem de Roma, evento que levou Áquila e Priscila a se encontrarem com Paulo em Corinto?",
+    answers: [
+      { text: "Nero", correct: false },
+      { text: "Augusto", correct: false },
+      { text: "Tibério", correct: false },
+      { text: "Cláudio", correct: true },
+    ],
+  },
+  {
+    question:
+      "(16) Quantas vezes aparece na Bíblia a frase exata 'temor e tremor'?",
+    answers: [
+      { text: "7 vezes", correct: false },
+      { text: "3 vezes", correct: false },
+      { text: "10 vezes", correct: false },
+      { text: "5 vezes", correct: true },
+    ],
+  },
+  {
+    question:
+      "(17) Qual o nome do anjo que apareceu a Zacarias, pai de João Batista, e disse que ele teria um filho?",
+    answers: [
+      { text: "Miguel", correct: false },
+      { text: "Uriel", correct: false },
+      { text: "Gabriel", correct: true },
+      { text: "Rafael", correct: false },
+    ],
+  },
+  {
+    question:
+      "(18) Qual dos filhos de Jacó não é mencionado por nome em nenhuma genealogia de Jesus?",
+    answers: [
+      { text: "Gade", correct: false },
+      { text: "Naftali", correct: false },
+      { text: "Aser", correct: false },
+      { text: "Dã", correct: true },
+    ],
+  },
+  {
+    question:
+      "(19) Qual livro da Bíblia termina com a palavra 'amém' e possui exatamente 21 capítulos?",
+    answers: [
+      { text: "Apocalipse", correct: false },
+      { text: "Salmos", correct: false },
+      { text: "Ezequiel", correct: false },
+      { text: "2 Crônicas", correct: true },
+    ],
+  },
+  {
+    question:
+      "(20) Quando Jesus leu na sinagoga o rolo de Isaías, Ele parou a leitura exatamente no meio de qual versículo?",
+    answers: [
+      { text: "Isaías 60:1", correct: false },
+      { text: "Isaías 62:1", correct: false },
+      { text: "Isaías 61:2", correct: false },
+      { text: "Isaías 61:1", correct: true },
+    ],
+  },
+  {
+    question:
+      "(21) Qual o nome do pai de Sansão que aparece apenas uma vez na Bíblia e nunca fala nada?",
+    answers: [
+      { text: "Zora", correct: false },
+      { text: "Elcana", correct: false },
+      { text: "Tobias", correct: false },
+      { text: "Manoá", correct: true },
+    ],
+  },
+  {
+    question:
+      "(22) Quantas vezes Noé enviou a pomba para fora da arca depois do dilúvio?",
+    answers: [
+      { text: "Uma vez", correct: false },
+      { text: "Três vezes", correct: false },
+      { text: "Quatro vezes", correct: false },
+      { text: "Duas vezes", correct: true },
+    ],
+  },
+  {
+    question:
+      "(23) Quem disse a frase 'Pois também eu sou homem sujeito à autoridade, e tenho soldados às minhas ordens'?",
+    answers: [
+      { text: "Herodes Antipas", correct: false },
+      { text: "Cornélio", correct: false },
+      { text: "O centurião romano", correct: true },
+      { text: "Pilatos", correct: false },
+    ],
+  },
+  {
+    question:
+      "(24) Qual é o menor versículo do Novo Testamento em número de palavras no grego original?",
+    answers: [
+      { text: "Amém (Apocalipse 22:21)", correct: false },
+      { text: "Orai sem cessar (1 Tessalonicenses 5:17)", correct: false },
+      { text: "Rogo a Deus (João 1:1)", correct: false },
+      { text: "Jesus chorou (João 11:35)", correct: true },
+    ],
+  },
+  {
+    question:
+      "(25) Qual rei ordenou a construção de um pilar com uma serpente de bronze para curar o povo de picadas de cobras?",
+    answers: [
+      { text: "Ezequias", correct: true },
+      { text: "Josias", correct: false },
+      { text: "Davi", correct: false },
+      { text: "Salomão", correct: false },
+    ],
+  },
+  {
+    question:
+      "(26) Quem foi o único juiz que teve 30 filhos e 30 filhas e usava 30 jumentinhos para transporte?",
+    answers: [
+      { text: "Ibdã", correct: false },
+      { text: "Abdom", correct: false },
+      { text: "Jair", correct: true },
+      { text: "Elom", correct: false },
+    ],
+  },
+  {
+    question:
+      "(27) Em qual capítulo do Apocalipse aparece a frase 'Eis que venho sem demora'?",
+    answers: [
+      { text: "Apocalipse 19", correct: false },
+      { text: "Apocalipse 20", correct: false },
+      { text: "Apocalipse 21", correct: false },
+      { text: "Apocalipse 22", correct: true },
+    ],
+  },
+  {
+    question: "(28) Qual discípulo de Jesus era chamado de 'Dídimo'?",
+    answers: [
+      { text: "Bartolomeu", correct: false },
+      { text: "Tadeu", correct: false },
+      { text: "Filipe", correct: false },
+      { text: "Tomé", correct: true },
+    ],
+  },
+  {
+    question:
+      "(29) Quais foram os dois nomes indicados para substituir Judas Iscariotes?",
+    answers: [
+      { text: "Paulo e Matias", correct: false },
+      { text: "Matias e Paulo", correct: false },
+      { text: "Paulo e José", correct: false },
+      { text: "Barsabás e Matias", correct: true },
+    ],
+  },
+  {
+    question:
+      "(30) Quantos capítulos tem o menor livro do Antigo Testamento (por número de versículos)?",
+    answers: [
+      { text: "2 capítulos (Ageu)", correct: false },
+      { text: "3 capítulos (Naum)", correct: false },
+      { text: "1 capítulo (Filemom)", correct: false },
+      { text: "1 capítulo (Obadias)", correct: true },
+    ],
+  },
+  {
+    question: "(31) Qual o nome da avó de Timóteo mencionada por Paulo?",
+    answers: [
+      { text: "Cloé", correct: false },
+      { text: "Febe", correct: false },
+      { text: "Eunice", correct: false },
+      { text: "Lóide", correct: true },
+    ],
+  },
+  {
+    question:
+      "(32) Qual profeta foi arrebatado ao céu em um redemoinho com um carro de fogo?",
+    answers: [
+      { text: "Eliseu", correct: false },
+      { text: "Enoque", correct: false },
+      { text: "Moisés", correct: false },
+      { text: "Elias", correct: true },
+    ],
+  },
+  {
+    question: "(33) Quantos anos viveu Isaque, o filho da promessa?",
+    answers: [
+      { text: "147 anos", correct: false },
+      { text: "205 anos", correct: false },
+      { text: "175 anos", correct: false },
+      { text: "180 anos", correct: true },
+    ],
+  },
+  {
+    question:
+      "(34) Qual era o nome do irmão de Lázaro que não aparece em nenhuma passagem bíblica?",
+    answers: [
+      { text: "José", correct: false },
+      { text: "Tiago", correct: false },
+      { text: "Simão", correct: false },
+      { text: "Não tinha irmão além das irmãs", correct: true },
+    ],
+  },
+  {
+    question:
+      "(35) Qual é o único animal que fala na Bíblia além da serpente no Éden?",
+    answers: [
+      { text: "A águia de Ezequiel", correct: false },
+      { text: "O leão de Daniel", correct: false },
+      { text: "O corvo de Elias", correct: false },
+      { text: "A jumenta de Balaão", correct: true },
+    ],
+  },
+  {
+    question:
+      "(36) Quem foi o primeiro rei mencionado na Bíblia a ser chamado de 'rei dos judeus'?",
+    answers: [
+      { text: "Davi", correct: false },
+      { text: "Salomão", correct: false },
+      { text: "Saul", correct: false },
+      { text: "Herodes, o Grande", correct: true },
+    ],
+  },
+  {
+    question: "(37) Quantos degraus tinha o templo de Ezequiel em sua visão?",
+    answers: [
+      { text: "Oito degraus", correct: false },
+      { text: "Doze degraus", correct: false },
+      { text: "Cinco degraus", correct: false },
+      { text: "Dez degraus", correct: true },
+    ],
+  },
+  {
+    question:
+      "(38) Qual discípulo perguntou a Jesus: 'Mostra-nos o Pai, e isso nos basta'?",
+    answers: [
+      { text: "Tomé", correct: false },
+      { text: "João", correct: false },
+      { text: "Pedro", correct: false },
+      { text: "Filipe", correct: true },
+    ],
+  },
+  {
+    question:
+      "(39) Em qual livro da Bíblia está escrito 'O justo viverá pela fé' pela primeira vez?",
+    answers: [
+      { text: "Romanos", correct: false },
+      { text: "Hebreus", correct: false },
+      { text: "Gálatas", correct: false },
+      { text: "Habacuque", correct: true },
+    ],
+  },
+
   {
     question: "(1) A quem Paulo chamou de 'meu companheiro de lutas' (Filemon 1:2)?",
     answers: [
